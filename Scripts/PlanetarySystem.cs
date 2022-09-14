@@ -5,31 +5,31 @@ using UnityEngine;
 public class PlanetarySystem : MonoBehaviour, IPlanetarySystem
 {
     /// <summary>
-    /// ÷≥ль дл€ обертанн€
+    /// Target for rotation
     /// </summary>
     [SerializeField] private Transform target;
     /// <summary>
-    /// Ўвидк≥сть обертанн€
+    /// Rotation speed
     /// </summary>
     public int speed;
     public static int CountOfPlaneteryObjects { get; set; }
 
     private static List<IPlanetaryObjects> _planeteryObjects = new();
     /// <summary>
-    /// —писок планет
+    /// List of planets
     /// </summary>
     public static List<IPlanetaryObjects> PlaneteryObjects => _planeteryObjects;
     /// <summary>
-    /// ≤н≥ц≥ал≥затор планет
+    /// Initializer of planets
     /// </summary>
-    /// <param name="totalMass">«агальна маса</param>
-    /// <param name="i">Ћ≥чильник з циклу, в €кому викликаЇтьс€ цей метод</param>
+    /// <param name="totalMass">Total mass</param>
+    /// <param name="i">The counter from the loop in which this method is called</param>
     public void Init(ref double totalMass, int i)
     {
         PlanetaryObjects planet = new();
-        if (i == CountOfPlaneteryObjects) // якщо об'Їкт останн≥й
+        if (i == CountOfPlaneteryObjects) // If the object is the last
         {
-            if (totalMass > 5000) // якщо маси ще забагато
+            if (totalMass > 5000) // If the mass is still too much
             {
                 CountOfPlaneteryObjects++;
                 PlaneteryObjects.Add(planet);
@@ -46,7 +46,7 @@ public class PlanetarySystem : MonoBehaviour, IPlanetarySystem
         }
         else
         {
-            if (totalMass > 5000) // якщо маса б≥льше маси Jovian'а
+            if (totalMass > 5000) // If the mass is greater than the Jovian mass
             {
                 PlaneteryObjects.Add(planet);
 
@@ -66,7 +66,7 @@ public class PlanetarySystem : MonoBehaviour, IPlanetarySystem
     {
         if (target == null)
         {
-            target = this.gameObject.transform;
+            target = gameObject.transform;
             Debug.Log("RotateAround target not specified. Defaulting to parent GameObject");
         }
     }

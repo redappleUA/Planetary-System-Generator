@@ -10,71 +10,71 @@ public class Factory : MonoBehaviour, IPlanetarySystemFactory
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject starPrefab;
     /// <summary>
-    /// Позиція спавну
+    /// Spawning position
     /// </summary>
     [SerializeField] private Vector3 position = new();
     [SerializeField] private double totalMass;
 
     private readonly List<GameObject> spawnedPlanets = new();
     /// <summary>
-    /// Скейлер радіуса планет
+    /// Planetary radius scaler
     /// </summary>
     private Vector3 radiusScale;
     /// <summary>
-    /// Скейлер радіуса зірки
+    /// Star radius scaler
     /// </summary>
     private Vector3 starRadiusScale;
 
     public void CreateStar()
     {
-        PlanetaryObjects.StarRadius = Random.Range(0.4f, 60f); // Задаємо розмір зірки
+        PlanetaryObjects.StarRadius = Random.Range(0.4f, 60f); // We set the size of the star
 
-        // Cтворюємо зірку
+        // Let's make a star
         GameObject go = Instantiate(starPrefab, position, Quaternion.identity); 
-        go.name = "Star"; // Ім'я
+        go.name = "Star"; // Name
 
-        #region Колір зірки
+        #region The color of the star
         var light = go.GetComponent<MeshRenderer>().sharedMaterial;
         light.SetColor("_BaseColor", StarRandomColor());
         #endregion
 
-        #region Розмір зірки
+        #region The size of the star
         starRadiusScale = new Vector3(1 * PlanetaryObjects.StarRadius, 1 * PlanetaryObjects.StarRadius, 1 * PlanetaryObjects.StarRadius);
         go.transform.localScale = starRadiusScale;
         #endregion
     }
     public void CreatePlanets(double totalMass)
     {
-        // Рандомно задаємо кількість планет
+        // We randomly set the number of planets
         PlanetarySystem.CountOfPlaneteryObjects = Random.Range(1, 10);
 
         for (int i = 0; i < PlanetarySystem.CountOfPlaneteryObjects; i++)
         {
-            // Створюємо планету
+            // We are creating a planet
             GameObject go = Instantiate(planetPrefab, position, Quaternion.identity);
             go.GetComponent<PlanetarySystem>().Init(ref totalMass, i); 
 
             var goRenderer = go.GetComponent<MeshRenderer>();
-            spawnedPlanets.Add(go); // Додаємо в List планет
+            spawnedPlanets.Add(go); // Add to List of planets
 
-            go.name = PlanetarySystem.PlaneteryObjects[i].massClass.ToString();   // Задаємо ім'я 
-            goRenderer.material.SetColor("_Color", PlanetRandomColor()); // Задаємо колір
+            go.name = PlanetarySystem.PlaneteryObjects[i].massClass.ToString();   // We set the name
+            goRenderer.material.SetColor("_Color", PlanetRandomColor()); // We set the color
 
-            #region Розмір планети
+            #region The Size of the planet
             radiusScale = new Vector3( 1 * PlanetarySystem.PlaneteryObjects[i].Radius, 
                 1 * PlanetarySystem.PlaneteryObjects[i].Radius, 1 * PlanetarySystem.PlaneteryObjects[i].Radius);
 
             go.transform.localScale = radiusScale;
             #endregion
 
-            #region Позиція планети
+            #region The position of the planet
             if (i == 0)
                 go.transform.position = new Vector3(starRadiusScale.x / 2 + go.transform.localScale.x / 2 + Random.Range(1, 6), 0, 0); 
             else
                 go.transform.position = spawnedPlanets[i - 1].transform.position + new Vector3(radiusScale.x / 2 + spawnedPlanets[i-1].transform.localScale.x / 2 + Random.Range(1, 6), 0, 0);
             #endregion
 
-            #region Швидкість обертання
+            #region Rotation speed
             var goOrbit = go.GetComponent<PlanetarySystem>();
             goOrbit.speed -= i * 4;
             #endregion

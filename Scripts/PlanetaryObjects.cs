@@ -8,13 +8,13 @@ using Random = UnityEngine.Random;
 public class PlanetaryObjects : MonoBehaviour, IPlanetaryObjects
 {
     /// <summary>
-    /// Клас планети
+    /// Planet class
     /// </summary>
     public MassClassEnum massClass { get; private set; }
 
     private double _mass;
     /// <summary>
-    /// Маса планети
+    /// Planet mass
     /// </summary>
     public double mass
     {
@@ -57,16 +57,16 @@ public class PlanetaryObjects : MonoBehaviour, IPlanetaryObjects
                 Radius = Random.Range(3.5f, 27);
                 massClass = MassClassEnum.Jovian;
             }
-            else throw new Exception("Mass Out Of Range. Enter mass up to 5000."); //TODO} 
+            else throw new Exception("Mass Out Of Range. Enter mass up to 5000."); //TODO 
         }
     }
     /// <summary>
-    /// Радіус планети
+    /// Planet radius 
     /// </summary>
     public float Radius { get; private set; }
     /// <summary>
-    /// Радіус зірки
+    /// Star radius
     /// </summary>
-    public static float StarRadius { get; set; } //INIT
+    public static float StarRadius { get; set; } 
 
 }
